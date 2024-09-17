@@ -44,8 +44,10 @@ export default function SeriesPage({ localeData, locale }: { localeData: any, lo
                 setLoading(true);
                 const fetchedSeries = await fetchSeries(genre !== 'all' ? `genre:${genre}` : undefined); // Fetch baseret alt efter hvad der er er valgt.
 
-                if (fetchedSeries == null) return;
-
+                if (fetchedSeries == null) {
+                    setSeries([]);
+                    return;
+                };
                 setSeries(fetchedSeries.entries || []);
             } catch (error) {
                 console.error('Error fetching series:', error);
@@ -99,16 +101,24 @@ export default function SeriesPage({ localeData, locale }: { localeData: any, lo
                         <Loader color="gray" size="xl" />
                     </div>
                 ) : (
-                    <div className={`w-full ${isAllCategory ? 'grid grid-cols-8 gap-4' : 'grid grid-cols-7 gap-4'} min-h-[23rem] bg-[#1C1C1C] rounded-md border-2 border-[#353535] p-4`}>
-                        {series.map((serie) => {
-                            const serieId = serie.id.split('/').pop(); //Få id'et fordi serie.id er et link.
-                            
-                            return (
-                                <div onClick={() => {hrefId(serieId)}} key={serie.id} className='w-full h-[21rem] border-2 border-[#353535] rounded-md flex justify-center items-center text-center hover:scale-[105%] duration-500 transition-all'>
-                                    <div className="text-center text-base font-semibold">{serie.title}</div>
+                    <div className={`w-full ${isAllCategory && series.length !== 0 ? 'grid grid-cols-8 gap-4' : series.length === 0 ? '' : 'grid grid-cols-7 gap-4'} min-h-[23rem] bg-[#1C1C1C] rounded-md border-2 border-[#353535] p-4`}>
+                        {series.length == 0 ?
+                            <>
+                                <div className='w-full h-[21rem] flex justify-center items-center'>
+                                    {localeData.loadingError}
                                 </div>
-                            )
-                        })}
+                            </>
+                            :
+                            series.map((serie) => {
+                                const serieId = serie.id.split('/').pop(); //Få id'et fordi serie.id er et link.
+                                
+                                return (
+                                    <div onClick={() => {hrefId(serieId)}} key={serie.id} className='w-full h-[21rem] border-2 border-[#353535] rounded-md flex justify-center items-center text-center hover:scale-[105%] duration-500 transition-all'>
+                                        <div className="text-center text-base font-semibold">{serie.title}</div>
+                                    </div>
+                                )
+                            })
+                        }
                     </div>
                 )}
             </div>

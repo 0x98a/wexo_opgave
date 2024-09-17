@@ -14,6 +14,7 @@
     "actors": "Actors",
     "wishlistEmptyTitle": "No wishes found",
     "wishlistEmptyText": "Add a movie or a serie to your wishlist to see it here!",
+    "loadingError": "An error occoured while loading",
     "all": "All",
     "notfound": "Not found",
     "notfound_msg": "The program was not found",

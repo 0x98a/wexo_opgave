@@ -44,7 +44,10 @@ export default function SeriesPage({ localeData, locale }: { localeData: any, lo
                 setLoading(true);
                 const fetchedMovies = await fetchMovies(genre !== 'all' ? `genre:${genre}` : undefined); // Fetch baseret alt efter hvad der er er valgt.
 
-                if (fetchedMovies == null) return;
+                if (fetchedMovies == null) {
+                    setMovies([]);
+                    return;
+                };
 
                 setMovies(fetchedMovies.entries || []);
             } catch (error) {
@@ -99,16 +102,24 @@ export default function SeriesPage({ localeData, locale }: { localeData: any, lo
                         <Loader color="gray" size="xl" />
                     </div>
                 ) : (
-                    <div className={`w-full ${isAllCategory ? 'grid grid-cols-8 gap-4' : 'grid grid-cols-7 gap-4'} min-h-[23rem] bg-[#1C1C1C] rounded-md border-2 border-[#353535] p-4`}>
-                        {movies.map((movie) => {
-                            const movieId = movie.id.split('/').pop(); //Få id'et fordi serie.id er et link.
-                            
-                            return (
-                                <div onClick={() => {hrefId(movieId)}} key={movie.id} className='w-full h-[21rem] border-2 border-[#353535] rounded-md flex justify-center items-center text-center hover:scale-[105%] duration-500 transition-all'>
-                                    <div className="text-center text-base font-semibold">{movie.title}</div>
+                    <div className={`w-full ${isAllCategory && movies.length !== 0 ? 'grid grid-cols-8 gap-4' : movies.length === 0 ? '' : 'grid grid-cols-7 gap-4'} min-h-[23rem] bg-[#1C1C1C] rounded-md border-2 border-[#353535] p-4`}>
+                        {movies.length == 0 ?
+                            <>
+                                <div className='w-full h-[21rem] flex justify-center items-center'>
+                                    {localeData.loadingError}
                                 </div>
-                            )
-                        })}
+                            </>
+                            :
+                            movies.map((movie) => {
+                                const movieId = movie.id.split('/').pop(); //Få id'et fordi serie.id er et link.
+                                
+                                return (
+                                    <div onClick={() => {hrefId(movieId)}} key={movie.id} className='w-full h-[21rem] border-2 border-[#353535] rounded-md flex justify-center items-center text-center hover:scale-[105%] duration-500 transition-all'>
+                                        <div className="text-center text-base font-semibold">{movie.title}</div>
+                                    </div>
+                                )
+                            })
+                        }
                     </div>
                 )}
             </div>

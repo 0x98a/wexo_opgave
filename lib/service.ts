@@ -16,7 +16,7 @@ export const fetchSeries = async (tags?: string, year?: number, range?: string) 
 
     //AbortController så vi kan abort hvis requesten timeouter.
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 7500);
+    const timeoutId = setTimeout(() => controller.abort(), 17500);
 
     try {
         const response = await fetch(url, { signal: controller.signal });
@@ -53,7 +53,7 @@ export const fetchProgramById = async (id: string) => {
 
     //AbortController så vi kan abort hvis requesten timeouter.
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 7500);
+    const timeoutId = setTimeout(() => controller.abort(), 17500);
 
     try {
         const response = await fetch(url, { signal: controller.signal });
@@ -96,7 +96,7 @@ export const fetchMovies = async (tags?: string, year?: number, range?: string) 
 
     //AbortController så vi kan abort hvis requesten timeouter.
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 7500);
+    const timeoutId = setTimeout(() => controller.abort(), 17500);
 
     try {
         const response = await fetch(url, { signal: controller.signal });
@@ -138,7 +138,7 @@ export const fetchProgramsByFranchise = async (franchise: string, sort?: string,
 
     //AbortController så vi kan abort hvis requesten timeouter.
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 7500);
+    const timeoutId = setTimeout(() => controller.abort(), 17500);
 
     try {
         const response = await fetch(url, { signal: controller.signal });
@@ -174,7 +174,7 @@ export const fetchProductByScopeId = async (scopeId: string) => {
 
     //AbortController så vi kan abort hvis requesten timeouter.
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 7500);
+    const timeoutId = setTimeout(() => controller.abort(), 17500);
 
     try {
         const response = await fetch(url, { signal: controller.signal });
@@ -210,7 +210,7 @@ export const fetchSeasonsBySeriesId = async (seriesId: string) => {
 
     //AbortController så vi kan abort hvis requesten timeouter.
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 7500);
+    const timeoutId = setTimeout(() => controller.abort(), 17500);
 
     try {
         const response = await fetch(url, { signal: controller.signal });

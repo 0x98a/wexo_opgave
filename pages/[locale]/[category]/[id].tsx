@@ -18,6 +18,12 @@ function formatRuntime(runtimeInSeconds: number, locale: string): string {
 }
 
 function formatProgramData(programData: any, locale: string) {
+    if (programData.isException) {
+        return null;
+    }
+
+    
+
     const directors = programData.plprogram$credits.filter((credit: any) => credit.plprogram$creditType === 'director').map((director: any) => director.plprogram$personName);
     const actors = programData.plprogram$credits.filter((credit: any) => credit.plprogram$creditType === 'actor').map((actor: any) => actor.plprogram$personName);
 
@@ -60,6 +66,14 @@ export default function ProgramDetail({ program, seasons, locale, localizedData 
 
     const formattedProgram = formatProgramData(program, locale);
 
+    if (formattedProgram == null) {
+        return (
+            <div className='w-full h-screen p-16 flex justify-center items-center'>
+                <span className='text-5xl text-white'>{localizedData.notfound}</span>
+            </div>
+        );
+    }
+
     const isInWishlist = wishlist.some(movie => movie.movieId === formattedProgram.id);
 
     return (
@@ -71,7 +85,7 @@ export default function ProgramDetail({ program, seasons, locale, localizedData 
                         <a href={`/${locale}/${program.plprogram$programType}${program.plprogram$programType == "movie" ? "s" : ""}`}>
                             <IconArrowLeft size="2rem" color="#fff" />
                         </a>
-                        <span className='text-2xl text-white font-bold'>{formattedProgram.title} {formattedProgram.id}</span>
+                        <span className='text-2xl text-white font-bold'>{formattedProgram.title}</span>
                         <div onClick={() => {toggleMovie(formattedProgram.id, formattedProgram.title, formattedProgram.releaseYear)}} className={`w-6 mt-1 ml-2 h-6 flex justify-center items-center ${isInWishlist ? "text-orange-500" : ""} transition-all duration-300 hover:scale-125`}>
                             <svg xmlns="http://www.w3.org/2000/svg" width={36} height={36} viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-star">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
@@ -83,32 +97,32 @@ export default function ProgramDetail({ program, seasons, locale, localizedData 
 
                 <div className='w-full h-[3rem] bg-[#353535] rounded-b-xl'>
                     <div className='flex flex-row gap-2 justify-start items-center h-full'>
-                        <div className='w-full px-6 h-full flex justify-between items-center'>
-                            <div className='flex flex-row gap-4'>
+                        <div className='w-full px-6 h-full flex flex-row justify-start items-center'>
+                            <div className='flex w-full flex-row gap-4'>
                                 <div className='px-2 h-full flex justify-center items-center'>
                                     <p className='text-lg font-semibold text-white/[0.8]'>{formattedProgram.releaseYear}</p>
                                 </div>
                                 {program.plprogram$programType === 'series' ?
                                     seasons && seasons.length > 0 ?
                                         <>
-                                            <div className='w-full px-2 h-full flex justify-center items-center flex-row'>
-                                                <p className='text-lg font-semibold text-white/[0.8]'>{seasons.length} {seasons.length > 1 ? localizedData.seasons : localizedData.season}</p>
+                                            <div className='min-w-[14rem] px-2 h-full flex justify-center items-center flex-row'>
+                                                <span className='text-lg break-keep font-semibold text-white/[0.8]'>{seasons.length} {seasons.length > 1 ? localizedData.seasons : localizedData.season}</span>
                                             </div>
                                         </>
                                         :
                                         <>
-                                            <div className='w-full px-2 h-full flex justify-center items-center flex-row'>
-                                                <p className='text-lg font-semibold text-white/[0.8]'>0 {localizedData.seasons}</p>
+                                            <div className='break-keep min-w-[14rem] px-2 h-full flex justify-center items-center'>
+                                                <span className='text-lg break-keep font-semibold text-white/[0.8]'>0 {localizedData.seasons}</span>
                                             </div>
                                         </>
                                     :
                                     <>
-                                        <div className='w-full px-2 h-full flex justify-center items-center'>
-                                            <p className='text-lg font-semibold text-white/[0.8]'>{formattedProgram.runtime}</p>
+                                        <div className='break-keep min-w-[14rem] px-2 h-full flex justify-center items-center'>
+                                            <span className='text-lg break-keep font-semibold text-white/[0.8]'>{formattedProgram.runtime}</span>
                                         </div>
                                     </>
                                 }
-                                <div className='px-4 h-full flex justify-center items-center'>
+                                <div className='px-4 h-full w-full flex flex-row justify-start items-center'>
                                     <p className='text-lg font-semibold text-white/[0.8]'>{formattedProgram.genres.join(', ')}</p>
                                 </div>
                             </div>
@@ -147,7 +161,7 @@ export default function ProgramDetail({ program, seasons, locale, localizedData 
                         </div>
                     )}
 
-                    <div className='w-2/3 h-full bg-[#353535] rounded-md p-4 flex flex-col gap-4'>
+                    <div className={`${program.plprogram$programType === 'series' && seasons && seasons.length || formattedProgram.youtubeTrailer == null ? "w-full" : "w-2/3"} h-full bg-[#353535] rounded-md p-4 flex flex-col gap-4`}>
                         <div className='w-full h-1/3 '>
                             <span className='text-2xl text-white font-semibold'>{formattedProgram.directors.length > 1 ? localizedData.directors : localizedData.director}</span>
                             <div className='w-full h-[5.5rem] text-xl overflow-y-auto'>

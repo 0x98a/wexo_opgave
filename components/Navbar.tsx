@@ -50,7 +50,7 @@ const NavBar: React.FC<NavbarProps> = ({ locale, localeData, wishlist }) => {
             </Drawer>
             <div className='w-full h-20 px-4 border-b-2 border-[#353535] bg-[#292929] flex justify-between items-center'>
                 <div className=''>
-                    <span className='text-4xl font-semibold text-white'>{localeData.title}</span>
+                    <a href={`http://localhost:3000/${locale}`} className='text-4xl font-semibold text-white'>{localeData.title}</a>
                 </div>
                 <div className='flex flex-row gap-2'>
                     <div onClick={open} className='w-12 h-12 flex justify-center items-center hover:text-orange-500 transition-all duration-500 hover:scale-125'>
