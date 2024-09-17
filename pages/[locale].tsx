@@ -65,10 +65,10 @@ export default function IndexPage({ localeData, locale }: { localeData: LocaleDa
                 </div>
 
                 <div className='w-full h-[25rem] flex flex-row justify-between gap-8'>
-                    <div className='w-1/4 h-full rounded-md hover:scale-[103%] transition-all border-2 border-[#353535] bg-[#292929] hover:border-[#616161] hover:bg-[#3f3f3f] '></div>
-                    <div className='w-1/4 h-full rounded-md hover:scale-[103%] transition-all border-2 border-[#353535] bg-[#292929] hover:border-[#616161] hover:bg-[#3f3f3f] '></div>
-                    <div className='w-1/4 h-full rounded-md hover:scale-[103%] transition-all border-2 border-[#353535] bg-[#292929] hover:border-[#616161] hover:bg-[#3f3f3f] '></div>
-                    <div className='w-1/4 h-full rounded-md hover:scale-[103%] transition-all border-2 border-[#353535] bg-[#292929] hover:border-[#616161] hover:bg-[#3f3f3f] '></div>
+                <div className='w-1/4 h-full rounded-md hover:scale-[103%] transition-all border-2 border-[#353535] bg-[#292929] hover:border-[#616161] hover:bg-[#3f3f3f] flex justify-center items-center font-bold text-white/[0.5] hover:text-white text-7xl '>ACTION</div>
+                <div className='w-1/4 h-full rounded-md hover:scale-[103%] transition-all border-2 border-[#353535] bg-[#292929] hover:border-[#616161] hover:bg-[#3f3f3f] flex justify-center items-center font-bold text-white/[0.5] hover:text-white text-7xl '>WAR</div>
+                <div className='w-1/4 h-full rounded-md hover:scale-[103%] transition-all border-2 border-[#353535] bg-[#292929] hover:border-[#616161] hover:bg-[#3f3f3f] flex justify-center items-center font-bold text-white/[0.5] hover:text-white text-7xl '>CRIME</div>
+                <div className='w-1/4 h-full rounded-md hover:scale-[103%] transition-all border-2 border-[#353535] bg-[#292929] hover:border-[#616161] hover:bg-[#3f3f3f] flex justify-center items-center font-bold text-white/[0.5] hover:text-white text-7xl '>DRAMA</div>
                 </div>
 
                 <div className='w-full h-[3rem]'></div>

@@ -43,6 +43,9 @@ export default function SeriesPage({ localeData, locale }: { localeData: any, lo
             try {
                 setLoading(true);
                 const fetchedSeries = await fetchSeries(genre !== 'all' ? `genre:${genre}` : undefined); // Fetch baseret alt efter hvad der er er valgt.
+
+                if (fetchedSeries == null) return;
+
                 setSeries(fetchedSeries.entries || []);
             } catch (error) {
                 console.error('Error fetching series:', error);

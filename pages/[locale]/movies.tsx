@@ -39,10 +39,13 @@ export default function SeriesPage({ localeData, locale }: { localeData: any, lo
             return;
         }
 
-        const loadSeries = async () => {
+        const loadMovies = async () => {
             try {
                 setLoading(true);
                 const fetchedMovies = await fetchMovies(genre !== 'all' ? `genre:${genre}` : undefined); // Fetch baseret alt efter hvad der er er valgt.
+
+                if (fetchedMovies == null) return;
+
                 setMovies(fetchedMovies.entries || []);
             } catch (error) {
                 console.error('Error fetching movies:', error);
@@ -51,7 +54,7 @@ export default function SeriesPage({ localeData, locale }: { localeData: any, lo
             }
         };
 
-        loadSeries();
+        loadMovies();
     }, [genre]);
 
     const handleGenreChange = (event: React.ChangeEvent<HTMLSelectElement>) => { //Skift genre og push nyt link

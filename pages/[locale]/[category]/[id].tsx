@@ -191,6 +191,17 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         const program = await fetchProgramById(id as string);
         let seasons = [];
 
+        if (program == null) {
+            return {
+                props: {
+                    program: null,
+                    seasons: null,
+                    locale: selectedLocale,
+                    localizedData,
+                },
+            };
+        }
+
         // Hvis programmet ikke er en film men en serie med sæsonner så fetch sæsonnerne
         if (program.plprogram$programType === 'series') {
             const fetchedSeasons = await fetchSeasonsBySeriesId(id as string);
