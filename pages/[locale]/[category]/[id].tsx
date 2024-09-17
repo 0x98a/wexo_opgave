@@ -37,6 +37,7 @@ function formatProgramData(programData: any, locale: string) {
     const youtubeTrailer = programData.tdc$youtubeTrailer !== "" ? programData.tdc$youtubeTrailer : null
 
     const runtime = formatRuntime(programData.plprogram$runtime, locale);
+    console.log(programData.description)
 
     return {
         id: programId,
@@ -142,7 +143,7 @@ export default function ProgramDetail({ program, seasons, locale, localizedData 
                                     <>
                                         <div key={season.id} className='w-full min-h-[5rem] bg-[#2d2d2d] p-2 rounded-md border-2 border-[#505050] flex flex-col'>
                                             <span className='text-xl font-semibold text-white'>{season.title}</span>
-                                            <span className='text-md font-normal text-white/[0.7]'>{season.description}</span>
+                                            <span className='text-md font-normal text-white/[0.7]'>{season.description == null ? localizedData.unavailable : season.description}</span>
                                         </div>
                                         <div className='w-full h-[1rem]'></div>
                                     </>
