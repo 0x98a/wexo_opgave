@@ -3,4 +3,10 @@ export interface Serie {
     title: string;
     cover: string;
 }
-  
+
+export interface Movie {
+    id: string;
+    title: string;
+    cover: string;
+}
+

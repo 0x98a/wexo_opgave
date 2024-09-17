@@ -6,8 +6,6 @@ import { Grid } from '@mantine/core';
 import NavBar from 'components/Navbar';
 import MovieGenre from 'components/MovieGenre';
 
-type Genre = "action" | "comedy" | "thriller" | "war" | "romance" | "drama" | "crime" | "documentary" | "horror";
-
 
 const genres: Genre[] = [
     "action",
@@ -98,7 +96,7 @@ export default function IndexPage({ localeData, locale }: { localeData: LocaleDa
 export async function getServerSideProps({ params, query }: any) {
     let locale = query.locale || 'da';  // Sæt default til at være da hvis der ikke er en locale sat.
 
-    if (locale !== ("da" || "en")) { //Check at locale er faktisk dansk eller engelsk
+    if (locale.toString() !== "en" && locale.toString() !== "da") {
         locale = "da"
     }
 

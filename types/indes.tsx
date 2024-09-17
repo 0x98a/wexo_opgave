@@ -14,3 +14,5 @@ type LocaleData = {
     documentary: string;
     horror: string;
 };
+
+type Genre = "action" | "comedy" | "thriller" | "war" | "romance" | "drama" | "crime" | "documentary" | "horror";
