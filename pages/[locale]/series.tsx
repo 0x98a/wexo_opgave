@@ -22,11 +22,11 @@ const genres = [
 ]
 
 export default function SeriesPage({ localeData, locale }: { localeData: any, locale: string }) {
-    const router = useRouter();
-    const { genre } = router.query;
-    const [series, setSeries] = useState<Serie[]>([]);
-    const [loading, setLoading] = useState(true);
-    const { wishlist } = useWishlist();
+    const router = useRouter(); //Brug next.js router
+    const { genre } = router.query; //Få nuværende genre
+    const [series, setSeries] = useState<Serie[]>([]); //Sæt serier til en tom array som fælger Serie interface
+    const [loading, setLoading] = useState(true); //Sæt loading til være true som standart
+    const { wishlist } = useWishlist(); //Brug wishlist da vi bruger den i navbar
 
     useEffect(() => {
         if (!genre) {
@@ -39,7 +39,7 @@ export default function SeriesPage({ localeData, locale }: { localeData: any, lo
             return;
         }
 
-        const loadSeries = async () => {
+        const loadSeries = async () => { //Load serier
             try {
                 setLoading(true);
                 const fetchedSeries = await fetchSeries(genre !== 'all' ? `genre:${genre}` : undefined); // Fetch baseret alt efter hvad der er er valgt.
@@ -65,7 +65,7 @@ export default function SeriesPage({ localeData, locale }: { localeData: any, lo
     };
 
     const hrefId = (id: any) => {
-        router.push(`/${router.query.locale}/series/${id}`);
+        router.push(`/${router.query.locale}/series/${id}`); //Sæt linket til serien med serie id'et
     };
 
     const isAllCategory = genre === 'all';

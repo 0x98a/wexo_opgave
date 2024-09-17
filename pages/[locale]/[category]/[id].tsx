@@ -3,41 +3,36 @@ import { fetchProgramById, fetchSeasonsBySeriesId } from '../../../lib/service';
 import { IconArrowLeft } from '@tabler/icons-react';
 import fs from 'fs';
 import path from 'path';
-import { useState, useEffect } from 'react';
-import { Loader } from '@mantine/core';
 import NavBar from '../../../components/Navbar';
 import { useWishlist } from 'lib/wishlist';
 
 function formatRuntime(runtimeInSeconds: number, locale: string): string {
-    if (!runtimeInSeconds) return locale === 'da' ? 'Ikke tilgængelig' : 'Unavailable';
+    if (!runtimeInSeconds) return locale === 'da' ? 'Ikke tilgængelig' : 'Unavailable'; //Hvis runtime ikke er der så return en utilgængelig besked
 
-    const hours = Math.floor(runtimeInSeconds / 3600);
-    const minutes = Math.floor((runtimeInSeconds % 3600) / 60);
+    const hours = Math.floor(runtimeInSeconds / 3600); // Få antal timer
+    const minutes = Math.floor((runtimeInSeconds % 3600) / 60); //Få antal minutter efter antal timer
 
-    return locale === 'da' ? `${hours} time${hours !== 1 ? 'r' : ''} og ${minutes} minut${minutes !== 1 ? 'ter' : ''}` : `${hours} hour${hours !== 1 ? 's' : ''} and ${minutes} minute${minutes !== 1 ? 's' : ''}`;
+    return locale === 'da' ? `${hours} time${hours !== 1 ? 'r' : ''} og ${minutes} minut${minutes !== 1 ? 'ter' : ''}` : `${hours} hour${hours !== 1 ? 's' : ''} and ${minutes} minute${minutes !== 1 ? 's' : ''}`; //Send en string tilbage som er formateret efter locale
 }
 
 function formatProgramData(programData: any, locale: string) {
     if (programData.isException) {
-        return null;
+        return null; //Return null hvis programmet ik findes
     }
 
-    
+    const directors = programData.plprogram$credits.filter((credit: any) => credit.plprogram$creditType === 'director').map((director: any) => director.plprogram$personName); //Få alle instruktøre
+    const actors = programData.plprogram$credits.filter((credit: any) => credit.plprogram$creditType === 'actor').map((actor: any) => actor.plprogram$personName); //Få alle skuespillere
 
-    const directors = programData.plprogram$credits.filter((credit: any) => credit.plprogram$creditType === 'director').map((director: any) => director.plprogram$personName);
-    const actors = programData.plprogram$credits.filter((credit: any) => credit.plprogram$creditType === 'actor').map((actor: any) => actor.plprogram$personName);
-
-    const genres = programData.plprogram$tags.filter((tag: any) => tag.plprogram$scheme === 'genre').map((tag: any) => locale === 'da' ? tag.plprogram$titleLocalized?.da : tag.plprogram$title);
+    const genres = programData.plprogram$tags.filter((tag: any) => tag.plprogram$scheme === 'genre').map((tag: any) => locale === 'da' ? tag.plprogram$titleLocalized?.da : tag.plprogram$title); //Få alle genre og deres navne baseret ud fra nuværende locale
 
     const programId = programData.id.split('/').pop(); //Få id'et fordi serie.id er et link.
 
-    const cover = programData.plprogram$thumbnails?.["orig-2100x1400"]?.plprogram$url || '';
-    const backdrop = programData.plprogram$thumbnails?.["orig-720x1280"]?.plprogram$url || '';
+    const cover = programData.plprogram$thumbnails?.["orig-2100x1400"]?.plprogram$url || ''; //Få backdoor - utilgængelig
+    const backdrop = programData.plprogram$thumbnails?.["orig-720x1280"]?.plprogram$url || ''; //Få backdoor - utilgængelig
 
-    const youtubeTrailer = programData.tdc$youtubeTrailer !== "" ? programData.tdc$youtubeTrailer : null
+    const youtubeTrailer = programData.tdc$youtubeTrailer !== "" ? programData.tdc$youtubeTrailer : null //Få traileren hvis der er en ellers sæt den til null
 
-    const runtime = formatRuntime(programData.plprogram$runtime, locale);
-    console.log(programData.description)
+    const runtime = formatRuntime(programData.plprogram$runtime, locale); //Format runtime da nuværende er i sekunder så vi formatter den til minutter/timer
 
     return {
         id: programId,
@@ -55,7 +50,7 @@ function formatProgramData(programData: any, locale: string) {
 }
 
 export default function ProgramDetail({ program, seasons, locale, localizedData }: ProgramDetailProps) {
-    if (!program) {
+    if (!program) { //Hvis programmet ikke er sat så return en fejl
         return (
             <div className='w-full h-screen p-16 flex justify-center items-center'>
                 <span className='text-5xl text-white'>{localizedData.notfound}</span>
@@ -63,11 +58,11 @@ export default function ProgramDetail({ program, seasons, locale, localizedData 
         );
     }
 
-    const { wishlist, toggleMovie } = useWishlist();
+    const { wishlist, toggleMovie } = useWishlist(); //Hent wishlish
 
-    const formattedProgram = formatProgramData(program, locale);
+    const formattedProgram = formatProgramData(program, locale); //Format programmet til et format jeg syntes er brugbart
 
-    if (formattedProgram == null) {
+    if (formattedProgram == null) { //Hvis programmet er null altså det data er ukorrekt, så send en fejl tilbage.
         return (
             <div className='w-full h-screen p-16 flex justify-center items-center'>
                 <span className='text-5xl text-white'>{localizedData.notfound}</span>
@@ -75,7 +70,7 @@ export default function ProgramDetail({ program, seasons, locale, localizedData 
         );
     }
 
-    const isInWishlist = wishlist.some(movie => movie.movieId === formattedProgram.id);
+    const isInWishlist = wishlist.some(movie => movie.movieId === formattedProgram.id); //Hvis filmen eller serien er en favriot så lav dette bool.
 
     return (
         <>

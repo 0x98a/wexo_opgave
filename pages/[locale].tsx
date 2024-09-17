@@ -23,7 +23,7 @@ const genres: Genre[] = [
 
 export default function IndexPage({ localeData, locale }: { localeData: LocaleData, locale: string }) {
     const [genresToShow, setGenresToShow] = useState(3); //Viser 3 genre af film standart
-    const { wishlist, toggleMovie } = useWishlist();
+    const { wishlist } = useWishlist(); //Brug wishlist som vi bruger til navbar
 
     return (
         <>

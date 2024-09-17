@@ -22,11 +22,11 @@ const genres = [
 ]
 
 export default function SeriesPage({ localeData, locale }: { localeData: any, locale: string }) {
-    const router = useRouter();
-    const { genre } = router.query;
-    const [movies, setMovies] = useState<Movie[]>([]);
-    const [loading, setLoading] = useState(true);
-    const { wishlist } = useWishlist();
+    const router = useRouter(); //Brug next.js router
+    const { genre } = router.query; //Få nuværende genre
+    const [movies, setMovies] = useState<Movie[]>([]); //Sæt film til en tom array som fælger Movie interface
+    const [loading, setLoading] = useState(true); //Sæt loading til at være true som standart
+    const { wishlist } = useWishlist(); //Brug wishlist da vi bruger den i navbar
 
     useEffect(() => {
         if (!genre) {
@@ -34,17 +34,17 @@ export default function SeriesPage({ localeData, locale }: { localeData: any, lo
             return;
         }
 
-        if (!genres.includes(genre.toString()) && genre !== "all") {
+        if (!genres.includes(genre.toString()) && genre !== "all") { //Check if genren er all   
             router.replace(`/${router.query.locale}/series?genre=all`); // Sæt til "all" hvis der er en ugyldig genre sat
             return;
         }
 
-        const loadMovies = async () => {
+        const loadMovies = async () => { //Load film
             try {
                 setLoading(true);
                 const fetchedMovies = await fetchMovies(genre !== 'all' ? `genre:${genre}` : undefined); // Fetch baseret alt efter hvad der er er valgt.
 
-                if (fetchedMovies == null) {
+                if (fetchedMovies == null) { //Hvis fetched movies er null så sæt movies til en tom array (timeout)
                     setMovies([]);
                     return;
                 };
@@ -66,7 +66,7 @@ export default function SeriesPage({ localeData, locale }: { localeData: any, lo
     };
 
     const hrefId = (id: any) => {
-        router.push(`/${router.query.locale}/movies/${id}`);
+        router.push(`/${router.query.locale}/movies/${id}`); //Sæt linket til filem med film id'et
     };
 
     const isAllCategory = genre === 'all';

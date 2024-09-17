@@ -9,6 +9,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     };
 };
 
-const IndexPage = () => null;
+const IndexPage = () => null; //Siden vi bare redirecter serverside så kan vi return null da siden ikke bliver vist
 
 export default IndexPage;
