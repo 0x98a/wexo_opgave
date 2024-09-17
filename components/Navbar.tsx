@@ -1,5 +1,5 @@
 import React from 'react';
-import { useRouter } from 'next/router'; // Import Next.js router
+import { useRouter } from 'next/router';
 
 type NavbarProps = {
     localeData: any;
@@ -10,11 +10,18 @@ const NavBar: React.FC<NavbarProps> = ({ localeData }) => {
 
     const changeLocale = (locale: string) => {
         //Brug af regex til at finde den nuværende locale som er sat som 2 bogstaver som første path i linket.
-        const newAsPath = router.asPath.replace(/^\/[a-zA-Z]{2}/, `/${locale}`);
-      
-        //Sæt nyt link med ny locale.
-        router.push(newAsPath);
-      };
+        const validLocales = ['da', 'en'];
+        const currentLocale = router.asPath.split('/')[1];
+
+        if (validLocales.includes(currentLocale)) {
+                const newAsPath = router.asPath.replace(/^\/[a-zA-Z]{2}/, `/${locale}`);
+                router.push(newAsPath);
+          } else {
+                const newAsPath = `/${locale}`; //Sæt locale til at være det valgte hvis linket ikk matcher altså fx et ugyldigt sprog er sat fx /testtest og ikke /da eller /en
+                router.push(newAsPath);
+          }
+    };
+
     return (
         <div className='w-full h-20 px-4 border-b-2 border-[#353535] bg-[#292929] flex justify-between items-center'>
             <div className=''>

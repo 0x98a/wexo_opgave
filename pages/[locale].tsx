@@ -8,22 +8,6 @@ import MovieGenre from 'components/MovieGenre';
 
 type Genre = "action" | "comedy" | "thriller" | "war" | "romance" | "drama" | "crime" | "documentary" | "horror";
 
-type LocaleData = {
-    title: string;
-    series: string;
-    movies: string;
-    seeAll: string;
-    seeMore: string;
-    action: string;
-    comedy: string;
-    thriller: string;
-    war: string;
-    romance: string;
-    drama: string;
-    crime: string;
-    documentary: string;
-    horror: string;
-};
 
 const genres: Genre[] = [
     "action",
