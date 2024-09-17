@@ -29,7 +29,7 @@ export default function IndexPage({ localeData, locale }: { localeData: LocaleDa
         <>
 
 
-            <NavBar locale={locale} localeData={localeData}/>
+            <NavBar locale={locale} localeData={localeData} wishlist={wishlist}/>
             <div className='w-full h-screen p-16 overflow-x-hidden'>
                 <div className='w-full h-full pb-4'>
 
@@ -101,7 +101,12 @@ export async function getServerSideProps({ params, query }: any) {
     let locale = query.locale || 'da';  // Sæt default til at være da hvis der ikke er en locale sat.
 
     if (locale.toString() !== "en" && locale.toString() !== "da") {
-        locale = "da"
+        return {
+            redirect: {
+                destination: '/da',
+                permanent: false,
+            },
+        };
     }
 
     const filePath = path.join(process.cwd(), 'locals', `${locale}.json`); //Load locale data fra json filer

@@ -118,7 +118,12 @@ export async function getServerSideProps({ params, query }: any) {
     let locale = query.locale || 'da';  // Sæt default til at være da hvis der ikke er en locale sat.
 
     if (locale.toString() !== "en" && locale.toString() !== "da") {
-        locale = "da"
+        return {
+            redirect: {
+                destination: '/da/movies',
+                permanent: false,
+            },
+        };
     }
 
     const filePath = path.join(process.cwd(), 'locals', `${locale}.json`); //Load locale data fra json filer

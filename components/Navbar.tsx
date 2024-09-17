@@ -30,14 +30,23 @@ const NavBar: React.FC<NavbarProps> = ({ locale, localeData, wishlist }) => {
     return (
         <>
             <Drawer opened={opened} position="right" onClose={close} title="Wishlist" overlayProps={{ backgroundOpacity: 0.4, blur: 4 }}>
-                {wishlist.map((movie: any) => (
-                    <li key={movie.movieId}>
-                        {movie.movieTitle} ({movie.movieReleaseDate}) - Added on: {new Date(movie.addedAt).toLocaleString()}
-                        <button onClick={() => toggleMovie(movie.movieId, movie.movieTitle, movie.movieReleaseDate)}>
-                            {wishlist.find((item: any) => item.movieId === movie.movieId) ? 'Remove' : 'Add'}
-                        </button>
-                    </li>
-                ))}
+                {wishlist.length > 0 ?
+                    wishlist.map((movie: any) => (
+                        <li key={movie.movieId}>
+                            {movie.movieTitle} ({movie.movieReleaseDate}) - Added on: {new Date(movie.addedAt).toLocaleString()}
+                            <button onClick={() => toggleMovie(movie.movieId, movie.movieTitle, movie.movieReleaseDate)}>
+                                {wishlist.find((item: any) => item.movieId === movie.movieId) ? 'Remove' : 'Add'}
+                            </button>
+                        </li>
+                    ))
+                    :
+                    <div className='w-full h-[7rem] flex flex-col justify-center items-center'>
+                        <span className='text-2xl text-white font-semibold'>{localeData.wishlistEmptyTitle}</span>
+                        <span className='text-md text-white/[0.7]'>{localeData.wishlistEmptyText}</span>
+
+                    </div>
+
+                }
             </Drawer>
             <div className='w-full h-20 px-4 border-b-2 border-[#353535] bg-[#292929] flex justify-between items-center'>
                 <div className=''>

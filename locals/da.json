@@ -12,6 +12,8 @@
     "directors": "Instruktører",
     "actor": "Skuespiller",
     "actors": "Skuespillere",
+    "wishlistEmptyTitle": "Ingen ønsker fundet",
+    "wishlistEmptyText": "Tilføj en film eller serie til din liste og se den her!",
     "all": "Alle",
     "notfound": "Ikke fundet",
     "notfound_msg": "Programmet blev ikke fundet",

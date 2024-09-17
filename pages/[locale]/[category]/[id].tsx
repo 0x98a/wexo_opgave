@@ -167,9 +167,20 @@ export default function ProgramDetail({ program, seasons, locale, localizedData 
     );
 }
 
+
+
 export const getServerSideProps: GetServerSideProps = async (context) => {
-    const { id, locale } = context.params!;
+    const { locale, category, id } = context.params!;
     const selectedLocale = locale || 'da';
+
+    if (selectedLocale.toString() !== "en" && selectedLocale.toString() !== "da") {
+        return {
+            redirect: {
+                destination: `/da/${category}/${id}`,
+                permanent: false,
+            },
+        };
+    }
 
     // Load locals data i form af de json filer der ligger i /locals mappen, bliver gjort serverside
     const filePath = path.join(process.cwd(), 'locals', `${selectedLocale}.json`);

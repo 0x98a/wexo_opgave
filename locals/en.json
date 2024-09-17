@@ -12,6 +12,8 @@
     "directors": "Directors",
     "actor": "Actor",
     "actors": "Actors",
+    "wishlistEmptyTitle": "No wishes found",
+    "wishlistEmptyText": "Add a movie or a serie to your wishlist to see it here!",
     "all": "All",
     "notfound": "Not found",
     "notfound_msg": "The program was not found",
