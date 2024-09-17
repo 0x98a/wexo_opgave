@@ -7,6 +7,7 @@ import { IconArrowLeft } from '@tabler/icons-react';
 import fs from 'fs';
 import path from 'path';
 import NavBar from '../../components/Navbar';
+import { useWishlist } from 'lib/wishlist';
 
 const genres = [
     "action",
@@ -20,11 +21,12 @@ const genres = [
     "horror"
 ]
 
-export default function SeriesPage({ localeData }: { localeData: any }) {
+export default function SeriesPage({ localeData, locale }: { localeData: any, locale: string }) {
     const router = useRouter();
     const { genre } = router.query;
     const [series, setSeries] = useState<Serie[]>([]);
     const [loading, setLoading] = useState(true);
+    const { wishlist } = useWishlist();
 
     useEffect(() => {
         if (!genre) {
@@ -65,7 +67,7 @@ export default function SeriesPage({ localeData }: { localeData: any }) {
 
     return (
         <>
-            <NavBar localeData={localeData}/>
+            <NavBar locale={locale} localeData={localeData} wishlist={wishlist}/>
             <div className='w-full h-screen p-16 overflow-x-hidden'>
                 <div className='w-full h-[6rem] flex justify-between items-start'>
                     <div className='flex flex-row gap-2'>

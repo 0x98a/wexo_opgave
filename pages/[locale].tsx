@@ -5,6 +5,7 @@ import fs from 'fs';
 import { Grid } from '@mantine/core';
 import NavBar from 'components/Navbar';
 import MovieGenre from 'components/MovieGenre';
+import { useWishlist } from 'lib/wishlist';
 
 
 const genres: Genre[] = [
@@ -22,10 +23,13 @@ const genres: Genre[] = [
 
 export default function IndexPage({ localeData, locale }: { localeData: LocaleData, locale: string }) {
     const [genresToShow, setGenresToShow] = useState(3); //Viser 3 genre af film standart
+    const { wishlist, toggleMovie } = useWishlist();
 
     return (
         <>
-            <NavBar localeData={localeData}/>
+
+
+            <NavBar locale={locale} localeData={localeData}/>
             <div className='w-full h-screen p-16 overflow-x-hidden'>
                 <div className='w-full h-full pb-4'>
 

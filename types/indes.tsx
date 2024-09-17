@@ -33,3 +33,16 @@ type LocalizedData = {
         description?: string;
     };
 };
+
+type NavbarProps = {
+    locale: string;
+    localeData: any;
+    wishlist: any;
+};
+
+type WishlistItem = {
+  movieId: string;
+  movieTitle: string;
+  movieReleaseDate: string;
+  addedAt: string; // Timestamp when the movie was added
+};

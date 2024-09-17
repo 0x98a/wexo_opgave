@@ -16,6 +16,7 @@ export const fetchSeries = async (tags?: string, year?: number, range?: string) 
 
     const response = await fetch(url);
     const data = await response.json();
+
     return data;
 };
 
@@ -26,6 +27,7 @@ export const fetchSeries = async (tags?: string, year?: number, range?: string) 
 export const fetchProgramById = async (id: string) => {
     const response = await fetch(`${API_BASE_URL}/bb-all-pas/${id}?form=json`);
     const data = await response.json();
+
     return data;
 };
 
@@ -45,6 +47,7 @@ export const fetchMovies = async (tags?: string, year?: number, range?: string) 
 
     const response = await fetch(url);
     const data = await response.json();
+
     return data;
 };
 
@@ -63,6 +66,7 @@ export const fetchProgramsByFranchise = async (franchise: string, sort?: string,
 
     const response = await fetch(url);
     const data = await response.json();
+
     return data;
 };
 
@@ -73,6 +77,7 @@ export const fetchProgramsByFranchise = async (franchise: string, sort?: string,
 export const fetchProductByScopeId = async (scopeId: string) => {
     const response = await fetch(`https://feed.product.theplatform.eu/f/jGxigC/bb-da-products?form=json&fields=id,scopeIds,pricingPlan,scopes,title,productTags,offerStartDate,offerEndDate&byScopeIds=${encodeURIComponent(scopeId)}`);
     const data = await response.json();
+
     return data;
 };
 

@@ -6,6 +6,7 @@ import path from 'path';
 import { useState, useEffect } from 'react';
 import { Loader } from '@mantine/core';
 import NavBar from '../../../components/Navbar';
+import { useWishlist } from 'lib/wishlist';
 
 function formatRuntime(runtimeInSeconds: number, locale: string): string {
     if (!runtimeInSeconds) return locale === 'da' ? 'Ikke tilgængelig' : 'Unavailable';
@@ -22,14 +23,17 @@ function formatProgramData(programData: any, locale: string) {
 
     const genres = programData.plprogram$tags.filter((tag: any) => tag.plprogram$scheme === 'genre').map((tag: any) => locale === 'da' ? tag.plprogram$titleLocalized?.da : tag.plprogram$title);
 
+    const programId = programData.id.split('/').pop(); //Få id'et fordi serie.id er et link.
+
     const cover = programData.plprogram$thumbnails?.["orig-2100x1400"]?.plprogram$url || '';
     const backdrop = programData.plprogram$thumbnails?.["orig-720x1280"]?.plprogram$url || '';
 
-    const youtubeTrailer = programData.tdc$youtubeTrailer.length > 0 ? programData.tdc$youtubeTrailer : null
+    const youtubeTrailer = programData.tdc$youtubeTrailer !== "" ? programData.tdc$youtubeTrailer : null
 
     const runtime = formatRuntime(programData.plprogram$runtime, locale);
 
     return {
+        id: programId,
         title: programData.title || 'Unknown Title',
         description: programData.description || 'No description available',
         releaseYear: programData.plprogram$year || 0,
@@ -52,49 +56,63 @@ export default function ProgramDetail({ program, seasons, locale, localizedData 
         );
     }
 
+    const { wishlist, toggleMovie } = useWishlist();
+
     const formattedProgram = formatProgramData(program, locale);
+
+    const isInWishlist = wishlist.some(movie => movie.movieId === formattedProgram.id);
 
     return (
         <>
-            <NavBar localeData={localizedData}/>
+            <NavBar locale={locale} localeData={localizedData} wishlist={wishlist}/>
             <div className='w-full h-screen p-16'>
                 <div className='w-full h-[4rem] bg-[#353535] px-8 rounded-t-xl'>
                     <div className='flex flex-row gap-2 justify-start items-center h-full'>
                         <a href={`/${locale}/${program.plprogram$programType}${program.plprogram$programType == "movie" ? "s" : ""}`}>
                             <IconArrowLeft size="2rem" color="#fff" />
                         </a>
-                        <span className='text-2xl text-white font-bold'>{formattedProgram.title}</span>
+                        <span className='text-2xl text-white font-bold'>{formattedProgram.title} {formattedProgram.id}</span>
+                        <div onClick={() => {toggleMovie(formattedProgram.id, formattedProgram.title, formattedProgram.releaseYear)}} className={`w-6 mt-1 ml-2 h-6 flex justify-center items-center ${isInWishlist ? "text-orange-500" : ""} transition-all duration-300 hover:scale-125`}>
+                            <svg xmlns="http://www.w3.org/2000/svg" width={36} height={36} viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-star">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" />
+                            </svg>
+                        </div>
                     </div>
                 </div>
 
                 <div className='w-full h-[3rem] bg-[#353535] rounded-b-xl'>
                     <div className='flex flex-row gap-2 justify-start items-center h-full'>
-                        <div className='w-1/3 h-full flex flex-row'>
-                            <div className='w-1/6 h-full flex justify-center items-center'>
-                                <p className='text-lg font-semibold text-white/[0.8]'>{formattedProgram.releaseYear}</p>
-                            </div>
-                            {program.plprogram$programType === 'series' ?
-                                seasons && seasons.length > 0 ?
-                                    <>
-                                        <div className='w-1/3 h-full flex justify-center items-center'>
-                                            <p className='text-lg font-semibold text-white/[0.8]'>{seasons.length} {seasons.length > 1 ? localizedData.seasons : localizedData.season}</p>
-                                        </div>
-                                    </>
+                        <div className='w-full px-6 h-full flex justify-between items-center'>
+                            <div className='flex flex-row gap-4'>
+                                <div className='px-2 h-full flex justify-center items-center'>
+                                    <p className='text-lg font-semibold text-white/[0.8]'>{formattedProgram.releaseYear}</p>
+                                </div>
+                                {program.plprogram$programType === 'series' ?
+                                    seasons && seasons.length > 0 ?
+                                        <>
+                                            <div className='w-full px-2 h-full flex justify-center items-center flex-row'>
+                                                <p className='text-lg font-semibold text-white/[0.8]'>{seasons.length} {seasons.length > 1 ? localizedData.seasons : localizedData.season}</p>
+                                            </div>
+                                        </>
+                                        :
+                                        <>
+                                            <div className='w-full px-2 h-full flex justify-center items-center flex-row'>
+                                                <p className='text-lg font-semibold text-white/[0.8]'>0 {localizedData.seasons}</p>
+                                            </div>
+                                        </>
                                     :
                                     <>
-                                        <div className='w-1/3 h-full flex justify-center items-center'>
-                                            <p className='text-lg font-semibold text-white/[0.8]'>0 {localizedData.seasons}</p>
+                                        <div className='w-full px-2 h-full flex justify-center items-center'>
+                                            <p className='text-lg font-semibold text-white/[0.8]'>{formattedProgram.runtime}</p>
                                         </div>
                                     </>
-                                :
-                                <>
-                                    <div className='w-1/3 h-full flex justify-center items-center'>
-                                        <p className='text-lg font-semibold text-white/[0.8]'>{formattedProgram.runtime}</p>
-                                    </div>
-                                </>
-                            }
-                            <div className='w-1/2 h-full flex justify-center items-center'>
-                                <p className='text-lg font-semibold text-white/[0.8]'>{formattedProgram.genres.join(', ')}</p>
+                                }
+                                <div className='px-4 h-full flex justify-center items-center'>
+                                    <p className='text-lg font-semibold text-white/[0.8]'>{formattedProgram.genres.join(', ')}</p>
+                                </div>
+                            </div>
+                            <div>
                             </div>
                         </div>
                     </div>
@@ -119,7 +137,7 @@ export default function ProgramDetail({ program, seasons, locale, localizedData 
                         </div>
                     )}
 
-                    {formattedProgram.youtubeTrailer !== null && (
+                    {formattedProgram.youtubeTrailer != null && (
                         <div className='w-1/3 h-full bg-[#353535] rounded-md p-6'>
                             <h2 className='text-3xl font-semibold text-white mb-2'>{localizedData.trailer}:</h2>
                             <div className='w-full h-[19rem]'>
@@ -144,19 +162,6 @@ export default function ProgramDetail({ program, seasons, locale, localizedData 
                         </div>
                     </div>
                 </div>
-
-                {program.plprogram$programType === 'series' && seasons && seasons.length > 0 && (
-                    <div className='mt-8'>
-                        <h2 className='text-3xl text-white'>{localizedData.seasons}</h2>
-                        <ul>
-                            {seasons.map((season) => (
-                                <li key={season.id} className='text-lg text-white'>
-                                    {season.title}
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                )}
             </div>
         </>
     );
