@@ -16,3 +16,20 @@ type LocaleData = {
 };
 
 type Genre = "action" | "comedy" | "thriller" | "war" | "romance" | "drama" | "crime" | "documentary" | "horror";
+
+type ProgramDetailProps = {
+    program: any | null;
+    seasons: any[] | null;
+    locale: string;
+    localizedData: any;
+};
+
+type LocalizedData = {
+    [locale: string]: {
+        title: string;
+        descriptionTitle: string;
+        actorsTitle: string;
+        directorsTitle: string;
+        description?: string;
+    };
+};

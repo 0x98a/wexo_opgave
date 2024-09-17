@@ -83,5 +83,6 @@ export const fetchProductByScopeId = async (scopeId: string) => {
 export const fetchSeasonsBySeriesId = async (seriesId: string) => {
     const response = await fetch(`${API_BASE_URL}/bb-all-seasons?form=json&lang=da&bySeriesId=${encodeURIComponent(seriesId)}`);
     const data = await response.json();
+
     return data;
 };
