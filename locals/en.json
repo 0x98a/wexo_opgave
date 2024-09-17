@@ -1,0 +1,19 @@
+{
+    "title": "Movies & Series",
+    "series": "Series",
+    "movies": "Movies",
+    "seeAll": "See all",
+    "seeMore": "See more movies",
+    "all": "All",
+    "notfound": "Not found",
+    "notfound_msg": "The program was not found",
+    "action": "Action",
+    "comedy": "Comedy",
+    "thriller": "Thriller",
+    "war": "War",
+    "romance": "Romance",
+    "drama": "Drama",
+    "crime": "Crime",
+    "documentary": "Documentary",
+    "horror": "Horror"
+}

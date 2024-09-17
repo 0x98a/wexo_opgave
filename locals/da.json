@@ -1,0 +1,19 @@
+{
+    "title": "Film & Serier",
+    "series": "Serier",
+    "movies": "Film",
+    "seeAll": "Se alle",
+    "seeMore": "Se flere film",
+    "all": "Alle",
+    "notfound": "Ikke fundet",
+    "notfound_msg": "Programmet blev ikke fundet",
+    "action": "Action",
+    "comedy": "Komedie",
+    "thriller": "Thriller",
+    "war": "Krigsfilm",
+    "romance": "Kærlighedsfilm",
+    "drama": "Drama",
+    "crime": "Kriminalfilm",
+    "documentary": "Dokumentarfilm",
+    "horror": "Gyserfilm"
+}
