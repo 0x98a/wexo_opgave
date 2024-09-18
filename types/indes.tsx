@@ -38,6 +38,7 @@ type NavbarProps = {
     locale: string;
     localeData: any;
     wishlist: any;
+    toggleMovie: any;
 };
 
 type WishlistItem = {

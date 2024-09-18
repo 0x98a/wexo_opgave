@@ -1,10 +1,11 @@
 import { GetServerSideProps } from 'next';
 import { fetchProgramById, fetchSeasonsBySeriesId } from '../../../lib/service';
-import { IconArrowLeft } from '@tabler/icons-react';
+import { IconArrowLeft, IconStarFilled } from '@tabler/icons-react';
 import fs from 'fs';
 import path from 'path';
 import NavBar from '../../../components/Navbar';
 import { useWishlist } from 'lib/wishlist';
+import { ActionIcon } from '@mantine/core';
 
 function formatRuntime(runtimeInSeconds: number, locale: string): string {
     if (!runtimeInSeconds) return locale === 'da' ? 'Ikke tilgængelig' : 'Unavailable'; //Hvis runtime ikke er der så return en utilgængelig besked
@@ -45,6 +46,7 @@ function formatProgramData(programData: any, locale: string) {
         directors,
         actors,
         runtime,
+        unformattedRuntime: programData.plprogram$runtime,
         youtubeTrailer,
     };
 }
@@ -58,7 +60,7 @@ export default function ProgramDetail({ program, seasons, locale, localizedData 
         );
     }
 
-    const { wishlist, toggleMovie } = useWishlist(); //Hent wishlish
+    const { wishlist, toggleMovie, isOnWishlist } = useWishlist(); //Hent wishlish
 
     const formattedProgram = formatProgramData(program, locale); //Format programmet til et format jeg syntes er brugbart
 
@@ -70,11 +72,9 @@ export default function ProgramDetail({ program, seasons, locale, localizedData 
         );
     }
 
-    const isInWishlist = wishlist.some(movie => movie.movieId === formattedProgram.id); //Hvis filmen eller serien er en favriot så lav dette bool.
-
     return (
         <>
-            <NavBar locale={locale} localeData={localizedData} wishlist={wishlist}/>
+            <NavBar locale={locale} localeData={localizedData} wishlist={wishlist} toggleMovie={toggleMovie}/>
             <div className='w-full h-screen p-16'>
                 <div className='w-full h-[4rem] bg-[#353535] px-8 rounded-t-xl'>
                     <div className='flex flex-row gap-2 justify-start items-center h-full'>
@@ -82,12 +82,9 @@ export default function ProgramDetail({ program, seasons, locale, localizedData 
                             <IconArrowLeft size="2rem" color="#fff" />
                         </a>
                         <span className='text-2xl text-white font-bold'>{formattedProgram.title}</span>
-                        <div onClick={() => {toggleMovie(formattedProgram.id, formattedProgram.title, formattedProgram.releaseYear)}} className={`w-6 mt-1 ml-2 h-6 flex justify-center items-center ${isInWishlist ? "text-orange-500" : ""} transition-all duration-300 hover:scale-125`}>
-                            <svg xmlns="http://www.w3.org/2000/svg" width={36} height={36} viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-star">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                <path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" />
-                            </svg>
-                        </div>
+                        <ActionIcon onClick={() => {toggleMovie(formattedProgram.id, formattedProgram.title, formattedProgram.releaseYear, formattedProgram.unformattedRuntime, seasons)}} variant="transparent" color={isOnWishlist(formattedProgram.id) ? "#f97316" : "gray"} className='transition-all' aria-label="Add to wishlist" size="xl">
+                            <IconStarFilled style={{ width: '70%', height: '70%' }} stroke={1.5} />
+                        </ActionIcon>
                     </div>
                 </div>
 

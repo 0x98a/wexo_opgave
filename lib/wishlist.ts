@@ -15,25 +15,35 @@ export function useWishlist() {
         const savedWishlist = localStorage.getItem('wishlist');
         if (savedWishlist) {
             setWishlist(JSON.parse(savedWishlist));
+        } else {
+            setWishlist([]); // Ensure wishlist is an empty array if nothing is saved
         }
     }, []);
-
-    //Når wishlist skifter så opdater vi localstorage
+    
+    // Når wishlist skifter så opdater vi localstorage
     useEffect(() => {
-        if (wishlist.length > 0) {
+        const savedWishlist = localStorage.getItem('wishlist');
+        // Only update localStorage if the wishlist has changed
+        if (wishlist.length > 0 && savedWishlist !== JSON.stringify(wishlist)) {
             localStorage.setItem('wishlist', JSON.stringify(wishlist));
         }
     }, [wishlist]);
+    
 
     // Function til at add en film til wishlist
-    const addToWishlist = (movieId: string, movieTitle: string, movieReleaseDate: string) => {
+    const addToWishlist = (movieId: string, movieTitle: string, movieReleaseDate: string, duration?: any, seasons?: any) => {
         const movieExists = wishlist.find((item) => item.movieId === movieId);
+
+        console.log(duration)
+        console.log(seasons)
 
         if (!movieExists) {
             const newMovie = {
                 movieId,
                 movieTitle,
                 movieReleaseDate,
+                "duration": duration == 0 ? null : duration,
+                "seasons": seasons == undefined ? null : seasons.length,
                 addedAt: new Date().toISOString(),
             };
 
@@ -50,16 +60,26 @@ export function useWishlist() {
         localStorage.setItem('wishlist', JSON.stringify(updatedWishlist)); //Update localstorage
     };
 
+    const isOnWishlist = (movieId: string) => {
+        const movieExists = wishlist.find((item) => item.movieId === movieId);
+
+        if (movieExists) {
+            return true;
+        }
+
+        return false;
+    };
+
     // En toggle function som gør at hvis filmen allerede er added så bliver den fjernet.
-    const toggleMovie = (movieId: string, movieTitle: string, movieReleaseDate: string) => {
+    const toggleMovie = (movieId: string, movieTitle: string, movieReleaseDate: string, duration?: any, seasons?: any) => {
         const movieExists = wishlist.find((item) => item.movieId === movieId);
 
         if (movieExists) {
             removeFromWishlist(movieId);
         } else {
-            addToWishlist(movieId, movieTitle, movieReleaseDate);
+            addToWishlist(movieId, movieTitle, movieReleaseDate, duration, seasons)
         }
     };
 
-    return { wishlist, addToWishlist, removeFromWishlist, toggleMovie };
+    return { wishlist, addToWishlist, removeFromWishlist, toggleMovie, isOnWishlist };
 }

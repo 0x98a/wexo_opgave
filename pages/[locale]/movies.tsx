@@ -26,7 +26,7 @@ export default function SeriesPage({ localeData, locale }: { localeData: any, lo
     const { genre } = router.query; //Få nuværende genre
     const [movies, setMovies] = useState<Movie[]>([]); //Sæt film til en tom array som fælger Movie interface
     const [loading, setLoading] = useState(true); //Sæt loading til at være true som standart
-    const { wishlist } = useWishlist(); //Brug wishlist da vi bruger den i navbar
+    const { wishlist, toggleMovie } = useWishlist(); //Brug wishlist da vi bruger den i navbar
 
     useEffect(() => {
         if (!genre) {
@@ -74,7 +74,7 @@ export default function SeriesPage({ localeData, locale }: { localeData: any, lo
 
     return (
         <>
-            <NavBar locale={locale} localeData={localeData} wishlist={wishlist}/>
+            <NavBar locale={locale} localeData={localeData} wishlist={wishlist} toggleMovie={toggleMovie}/>
             <div className='w-full h-screen p-16 overflow-x-hidden'>
                 <div className='w-full h-[6rem] flex flex-col md:flex-row md:justify-between justify-center mb-10 items-center md:items-start'>
                     <div className='flex flex-row gap-2 text-4xl text-center'>

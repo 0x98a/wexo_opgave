@@ -1,13 +1,23 @@
 import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { Drawer } from '@mantine/core';
+import { ActionIcon, Drawer } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useWishlist } from 'lib/wishlist';
+import { IconX } from '@tabler/icons-react';
 
-const NavBar: React.FC<NavbarProps> = ({ locale, localeData, wishlist }) => {
+const NavBar: React.FC<NavbarProps> = ({ locale, localeData, wishlist, toggleMovie }) => {
     const router = useRouter();
-    const { toggleMovie } = useWishlist();
     
+
+    function formatRuntime(runtimeInSeconds: number, locale: string): string {
+        if (!runtimeInSeconds) return locale === 'da' ? 'Ikke tilgængelig' : 'Unavailable'; //Hvis runtime ikke er der så return en utilgængelig besked
+    
+        const hours = Math.floor(runtimeInSeconds / 3600); // Få antal timer
+        const minutes = Math.floor((runtimeInSeconds % 3600) / 60); //Få antal minutter efter antal timer
+    
+        return locale === 'da' ? `${hours} time${hours !== 1 ? 'r' : ''} og ${minutes} minut${minutes !== 1 ? 'ter' : ''}` : `${hours} hour${hours !== 1 ? 's' : ''} and ${minutes} minute${minutes !== 1 ? 's' : ''}`; //Send en string tilbage som er formateret efter locale
+    }
+
     const changeLocale = (locale: string) => {
         //Brug af regex til at finde den nuværende locale som er sat som 2 bogstaver som første path i linket.
         const validLocales = ['da', 'en'];
@@ -30,23 +40,37 @@ const NavBar: React.FC<NavbarProps> = ({ locale, localeData, wishlist }) => {
     return (
         <>
             <Drawer opened={opened} position="right" onClose={close} title="Wishlist" overlayProps={{ backgroundOpacity: 0.4, blur: 4 }}>
-                {wishlist.length > 0 ?
-                    wishlist.map((movie: any) => (
-                        <li key={movie.movieId}>
-                            {movie.movieTitle} ({movie.movieReleaseDate}) - Added on: {new Date(movie.addedAt).toLocaleString()}
-                            <button onClick={() => toggleMovie(movie.movieId, movie.movieTitle, movie.movieReleaseDate)}>
-                                {wishlist.find((item: any) => item.movieId === movie.movieId) ? 'Remove' : 'Add'}
-                            </button>
-                        </li>
-                    ))
-                    :
-                    <div className='w-full h-[7rem] flex flex-col justify-center items-center'>
-                        <span className='lg:text-2xl text-lg text-white font-semibold'>{localeData.wishlistEmptyTitle}</span>
-                        <span className='lg:text-md text-sm text-white/[0.7]'>{localeData.wishlistEmptyText}</span>
+                <div className='flex flex-col gap-2'>
+                    {wishlist.length > 0 ?
+                        wishlist.map((movie: any) => (
+                            <div key={movie.movieId} className='w-full h-[5rem] rounded-md border-2 border-[#323232]  bg-[#1C1C1C] p-2 flex items-start justify-center flex-col'>
+                                <div className='flex flex-col w-full gap-3'>
+                                    <div className='flex flex-col w-full gap-0'>
+                                        <div className='flex flex-row w-full justify-between items-center'>
+                                            <span className='text-lg font-semibold leading-3'>{movie.movieTitle} ({movie.movieReleaseDate})</span>
+                                            <ActionIcon onClick={() => {toggleMovie(movie.movieId, movie.movieTitle, movie.movieReleaseDate)}} variant="subtle" color="gray" aria-label="Settings">
+                                                <IconX style={{ width: '70%', height: '70%' }} stroke={1.5} />
+                                            </ActionIcon>
+                                        </div>
+                                        {movie.duration !== 0 && movie.seasons == 0 && 
+                                            <span className='text-sm font-semibold leading-3'>{formatRuntime(movie.duration, locale)}</span>
+                                        }
+                                        {movie.seasons !== 0 && 
+                                            <span className='text-sm font-semibold leading-3'>{movie.seasons} {movie.seasons > 1 ? localeData.seasons : localeData.season}</span>
+                                        }
+                                    </div>
+                                    <span className='text-sm '>{localeData.addedOn}{new Date(movie.addedAt).toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric', })}, {new Date(movie.addedAt).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', second: '2-digit', })}</span>
 
-                    </div>
-
-                }
+                                </div>
+                            </div>
+                        ))
+                        :
+                        <div className='w-full h-[7rem] flex flex-col justify-center items-center'>
+                            <span className='lg:text-2xl text-lg text-white font-semibold'>{localeData.wishlistEmptyTitle}</span>
+                            <span className='lg:text-md text-sm text-white/[0.7]'>{localeData.wishlistEmptyText}</span>
+                        </div>
+                    }
+                </div>
             </Drawer>
             <div className='w-full h-20 px-4 border-b-2 border-[#353535] bg-[#292929] flex justify-between items-center'>
                 <div className=''>
