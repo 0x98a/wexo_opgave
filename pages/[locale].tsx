@@ -27,10 +27,8 @@ export default function IndexPage({ localeData, locale }: { localeData: LocaleDa
 
     return (
         <>
-
-
             <NavBar locale={locale} localeData={localeData} wishlist={wishlist}/>
-            <div className='w-full h-screen p-16 overflow-x-hidden'>
+            <div className='w-full h-screen md:p-16 p-4 overflow-x-hidden'>
                 <div className='w-full h-full pb-4'>
 
                 <div className='w-full h-[3.5rem] flex justify-between items-center'>
@@ -43,9 +41,9 @@ export default function IndexPage({ localeData, locale }: { localeData: LocaleDa
                     </a>
                 </div>
 
-                <Grid grow gutter="sm" className='h-[10rem]'>
+                <Grid grow gutter="sm" className=''>
                     {genres.map((genre: Genre) => 
-                        <Grid.Col span={2.4}>
+                        <Grid.Col key={genre} span={2.4}>
                             <a href={`http://localhost:3000/${locale}/series?genre=${genre}`} className='w-full hover:scale-[103%] transition-all h-[6rem] rounded-md border-2 border-[#353535] bg-[#292929] hover:border-[#616161] hover:bg-[#3f3f3f] flex justify-center items-center'>
                                 <span className='text-white text-4xl font-semibold'>{localeData[genre]}</span>
                             </a>
@@ -64,18 +62,18 @@ export default function IndexPage({ localeData, locale }: { localeData: LocaleDa
                     </a>
                 </div>
 
-                <div className='w-full h-[25rem] flex flex-row justify-between gap-8'>
-                    <a href={`http://localhost:3000/${locale}/movies?genre=action`}  className='w-1/4 h-full rounded-md hover:scale-[103%] transition-all border-2 border-[#353535] bg-[#292929] hover:border-[#616161] hover:bg-[#3f3f3f] flex justify-center items-center font-bold text-white/[0.5] hover:text-white text-7xl '>ACTION</a>
-                    <a href={`http://localhost:3000/${locale}/movies?genre=war`} className='w-1/4 h-full rounded-md hover:scale-[103%] transition-all border-2 border-[#353535] bg-[#292929] hover:border-[#616161] hover:bg-[#3f3f3f] flex justify-center items-center font-bold text-white/[0.5] hover:text-white text-7xl '>WAR</a>
-                    <a href={`http://localhost:3000/${locale}/movies?genre=crime`} className='w-1/4 h-full rounded-md hover:scale-[103%] transition-all border-2 border-[#353535] bg-[#292929] hover:border-[#616161] hover:bg-[#3f3f3f] flex justify-center items-center font-bold text-white/[0.5] hover:text-white text-7xl '>CRIME</a>
-                    <a href={`http://localhost:3000/${locale}/movies?genre=drama`} className='w-1/4 h-full rounded-md hover:scale-[103%] transition-all border-2 border-[#353535] bg-[#292929] hover:border-[#616161] hover:bg-[#3f3f3f] flex justify-center items-center font-bold text-white/[0.5] hover:text-white text-7xl '>DRAMA</a>
+                <div className='w-full h-[25rem] flex flex-col xl:flex-row justify-between gap-8'>
+                    <a href={`http://localhost:3000/${locale}/movies?genre=action`}  className='xl:w-1/4 h-full rounded-md hover:scale-[103%] transition-all border-2 border-[#353535] bg-[#292929] hover:border-[#616161] hover:bg-[#3f3f3f] flex justify-center items-center font-bold text-white/[0.5] hover:text-white text-5xl md:text-6xl lg:text-7xl '>ACTION</a>
+                    <a href={`http://localhost:3000/${locale}/movies?genre=war`} className='xl:w-1/4 w-full h-full rounded-md hover:scale-[103%] transition-all border-2 border-[#353535] bg-[#292929] hover:border-[#616161] hover:bg-[#3f3f3f] flex justify-center items-center font-bold text-white/[0.5] hover:text-white text-5xl md:text-6xl lg:text-7xl '>WAR</a>
+                    <a href={`http://localhost:3000/${locale}/movies?genre=crime`} className='xl:w-1/4 w-full h-full rounded-md hover:scale-[103%] transition-all border-2 border-[#353535] bg-[#292929] hover:border-[#616161] hover:bg-[#3f3f3f] flex justify-center items-center font-bold text-white/[0.5] hover:text-white text-5xl md:text-6xl lg:text-7xl '>CRIME</a>
+                    <a href={`http://localhost:3000/${locale}/movies?genre=drama`} className='xl:w-1/4 w-full h-full rounded-md hover:scale-[103%] transition-all border-2 border-[#353535] bg-[#292929] hover:border-[#616161] hover:bg-[#3f3f3f] flex justify-center items-center font-bold text-white/[0.5] hover:text-white text-5xl md:text-6xl lg:text-7xl '>DRAMA</a>
                 </div>
 
                 <div className='w-full h-[3rem]'></div>
 
 
                 {genres.slice(0, genresToShow).map((genre: Genre) => (
-                    <MovieGenre locale={locale} title={localeData[genre]} genre={genre} href={genre} />
+                    <MovieGenre key={genre} locale={locale} title={localeData[genre]} genre={genre} href={genre} />
                 ))}
 
                 <div className='w-full h-[3rem]'></div>

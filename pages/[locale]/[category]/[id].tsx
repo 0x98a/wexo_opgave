@@ -129,9 +129,9 @@ export default function ProgramDetail({ program, seasons, locale, localizedData 
                 </div>
 
                 <div className='w-full h-[1rem]'></div>
-                <div className='w-full h-[25rem] flex flex-row gap-4'>
+                <div className='w-full flex flex-row gap-4'>
                     {program.plprogram$programType === 'series' && seasons && seasons.length > 0 && (
-                        <div className='w-1/3 h-full bg-[#353535] rounded-md p-6'>
+                        <div className='w-1/2 xl:w-1/3 h-full bg-[#353535] rounded-md p-6'>
                             <h2 className='text-3xl text-white mb-2'>{localizedData.seasons}</h2>
                             <div className='w-full h-[19rem] overflow-y-auto'>
                                 {seasons.map((season) => (
@@ -148,7 +148,7 @@ export default function ProgramDetail({ program, seasons, locale, localizedData 
                     )}
 
                     {formattedProgram.youtubeTrailer != null && (
-                        <div className='w-1/3 h-full bg-[#353535] rounded-md p-6'>
+                        <div className='xl:w-1/3 h-full bg-[#353535] rounded-md p-6'>
                             <h2 className='text-3xl font-semibold text-white mb-2'>{localizedData.trailer}:</h2>
                             <div className='w-full h-[19rem]'>
                                 <iframe width="560" height="315" src={`https://www.youtube.com/embed/${formattedProgram.youtubeTrailer}`} title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share">
@@ -157,7 +157,7 @@ export default function ProgramDetail({ program, seasons, locale, localizedData 
                         </div>
                     )}
 
-                    <div className={`${program.plprogram$programType === 'series' && seasons && seasons.length || formattedProgram.youtubeTrailer == null ? "w-full" : "w-2/3"} h-full bg-[#353535] rounded-md p-4 flex flex-col gap-4`}>
+                    <div className={`${program.plprogram$programType === 'series' && seasons && seasons.length || formattedProgram.youtubeTrailer == null ? "w-full" : "w-1/2 md:w-3/4 xl:w-2/3"} h-full bg-[#353535] rounded-md p-4 flex flex-col gap-4`}>
                         <div className='w-full h-1/3 '>
                             <span className='text-2xl text-white font-semibold'>{formattedProgram.directors.length > 1 ? localizedData.directors : localizedData.director}</span>
                             <div className='w-full h-[5.5rem] text-xl overflow-y-auto'>

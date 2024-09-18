@@ -75,15 +75,15 @@ export default function SeriesPage({ localeData, locale }: { localeData: any, lo
         <>
             <NavBar locale={locale} localeData={localeData} wishlist={wishlist}/>
             <div className='w-full h-screen p-16 overflow-x-hidden'>
-                <div className='w-full h-[6rem] flex justify-between items-start'>
-                    <div className='flex flex-row gap-2'>
+            <div className='w-full h-[6rem] flex flex-col md:flex-row md:justify-between justify-center mb-10 items-center md:items-start'>
+            <div className='flex flex-row gap-2 text-4xl text-center'>
                         <a href={`/${router.query.locale}/`}>
                             <IconArrowLeft size="3.5rem" color="#fff" />
                         </a>
-                        <span className='text-5xl text-white font-bold'>{localeData.movies} {!isAllCategory ? `(${genre})` : ""}</span>
+                        <span className='sm:text-5xl md:text-5xl text-5xl text-white font-bold'>{localeData.movies} {!isAllCategory ? `(${genre})` : ""}</span>
                     </div>
 
-                    <select onChange={handleGenreChange} value={genre} className='ml-auto p-4 border rounded-md'>
+                    <select onChange={handleGenreChange} value={genre} className='w-full md:w-1/4 lg:w-1/5 xl:w-1/6 md:mb-4 p-4 border rounded-md'>
                         <option value='all'>{localeData.all}</option>
                         <option value='action'>{localeData.action}</option>
                         <option value='comedy'>{localeData.comedy}</option>
@@ -102,7 +102,7 @@ export default function SeriesPage({ localeData, locale }: { localeData: any, lo
                         <Loader color="gray" size="xl" />
                     </div>
                 ) : (
-                    <div className={`w-full ${isAllCategory && movies.length !== 0 ? 'grid grid-cols-8 gap-4' : movies.length === 0 ? '' : 'grid grid-cols-7 gap-4'} min-h-[23rem] bg-[#1C1C1C] rounded-md border-2 border-[#353535] p-4`}>
+                    <div className={`w-full ${isAllCategory && movies.length !== 0 ? 'grid sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7 gap-4' : movies.length === 0 ? '' : 'grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 xl:grid-cols-7 gap-4'} min-h-[23rem] bg-[#1C1C1C] rounded-md border-2 border-[#353535] p-4`}>
                         {movies.length == 0 ?
                             <>
                                 <div className='w-full h-[21rem] flex justify-center items-center'>

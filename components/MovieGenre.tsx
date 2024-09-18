@@ -61,9 +61,9 @@ const MovieGenre: React.FC<MovieGenreProps> = ({ locale, title, genre, href }) =
                 </>
             :
                 <>
-                    <div className="w-full h-[20rem] flex flex-row justify-center items-center gap-4">
+                    <div className="w-full flex flex-col xl:flex-row justify-center items-center gap-4">
                         {movies.slice(0, 6).map((movie, index) => (
-                            <div key={index} className="w-full min-h-[20rem] flex flex-col justify-center items-center rounded-md hover:scale-[103%] transition-all border-2 border-[#353535] bg-[#292929] hover:border-[#616161] hover:bg-[#3f3f3f]">
+                            <div key={index} className="w-full xl:min-h-[20rem] min-h-[5rem] flex flex-col justify-center items-center rounded-md hover:scale-[103%] transition-all border-2 border-[#353535] bg-[#292929] hover:border-[#616161] hover:bg-[#3f3f3f]">
                                 <span className='text-2xl font-semibold text-center text-white'>{movie.title} ({movie.plprogram$year})</span>
                                 <span className='text-md text-center text-white/[0.7]'>{movie.plprogram$tags.filter((tag: any) => tag.plprogram$scheme === 'genre').map((tag: any) => locale === 'da' ? tag.plprogram$titleLocalized?.da : tag.plprogram$title).join(', ')}</span>                                                           
                             </div>

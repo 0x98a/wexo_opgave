@@ -41,8 +41,8 @@ const NavBar: React.FC<NavbarProps> = ({ locale, localeData, wishlist }) => {
                     ))
                     :
                     <div className='w-full h-[7rem] flex flex-col justify-center items-center'>
-                        <span className='text-2xl text-white font-semibold'>{localeData.wishlistEmptyTitle}</span>
-                        <span className='text-md text-white/[0.7]'>{localeData.wishlistEmptyText}</span>
+                        <span className='lg:text-2xl text-lg text-white font-semibold'>{localeData.wishlistEmptyTitle}</span>
+                        <span className='lg:text-md text-sm text-white/[0.7]'>{localeData.wishlistEmptyText}</span>
 
                     </div>
 
@@ -50,7 +50,7 @@ const NavBar: React.FC<NavbarProps> = ({ locale, localeData, wishlist }) => {
             </Drawer>
             <div className='w-full h-20 px-4 border-b-2 border-[#353535] bg-[#292929] flex justify-between items-center'>
                 <div className=''>
-                    <a href={`http://localhost:3000/${locale}`} className='text-4xl font-semibold text-white'>{localeData.title}</a>
+                    <a href={`http://localhost:3000/${locale}`} className='lg:text-4xl md:text-3xl sm:text-2xl text-xl font-semibold text-white transition-all'>{localeData.title}</a>
                 </div>
                 <div className='flex flex-row gap-2'>
                     <div onClick={open} className='w-12 h-12 flex justify-center items-center hover:text-orange-500 transition-all duration-500 hover:scale-125'>
