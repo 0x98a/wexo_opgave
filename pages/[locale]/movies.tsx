@@ -52,6 +52,7 @@ export default function SeriesPage({ localeData, locale }: { localeData: any, lo
                 setMovies(fetchedMovies.entries || []);
             } catch (error) {
                 console.error('Error fetching movies:', error);
+                setMovies([]);
             } finally {
                 setLoading(false);
             }
@@ -75,8 +76,8 @@ export default function SeriesPage({ localeData, locale }: { localeData: any, lo
         <>
             <NavBar locale={locale} localeData={localeData} wishlist={wishlist}/>
             <div className='w-full h-screen p-16 overflow-x-hidden'>
-            <div className='w-full h-[6rem] flex flex-col md:flex-row md:justify-between justify-center mb-10 items-center md:items-start'>
-            <div className='flex flex-row gap-2 text-4xl text-center'>
+                <div className='w-full h-[6rem] flex flex-col md:flex-row md:justify-between justify-center mb-10 items-center md:items-start'>
+                    <div className='flex flex-row gap-2 text-4xl text-center'>
                         <a href={`/${router.query.locale}/`}>
                             <IconArrowLeft size="3.5rem" color="#fff" />
                         </a>
@@ -105,8 +106,9 @@ export default function SeriesPage({ localeData, locale }: { localeData: any, lo
                     <div className={`w-full ${isAllCategory && movies.length !== 0 ? 'grid sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7 gap-4' : movies.length === 0 ? '' : 'grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 xl:grid-cols-7 gap-4'} min-h-[23rem] bg-[#1C1C1C] rounded-md border-2 border-[#353535] p-4`}>
                         {movies.length == 0 ?
                             <>
-                                <div className='w-full h-[21rem] flex justify-center items-center'>
-                                    {localeData.loadingError}
+                                <div className='w-full h-[21rem] flex flex-col justify-center items-center'>
+                                    <span className='text-2xl font-semibold text-white'>{localeData.loadingError}</span>
+                                    <a className='text-lg font-semibold text-white/[0.6]' onClick={() => window.location.reload()}>{localeData.loadingTryAgain}</a>
                                 </div>
                             </>
                             :

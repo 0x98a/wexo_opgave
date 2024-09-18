@@ -22,7 +22,10 @@ const MovieGenre: React.FC<MovieGenreProps> = ({ locale, title, genre, href }) =
                 setLoading(true);
                 const fetchedMovies = await fetchMovies(`genre:${genre}`); // Fetch baseret alt efter hvad der er er valgt.
 
-                if (fetchedMovies == null) return;
+                if (fetchedMovies == null) {
+                    setMovies([])
+                    return;
+                };
 
                 setMovies(fetchedMovies.entries || []);
             } catch (error: any) {
