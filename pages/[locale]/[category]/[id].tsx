@@ -52,6 +52,8 @@ function formatProgramData(programData: any, locale: string) {
 }
 
 export default function ProgramDetail({ program, seasons, locale, localizedData }: ProgramDetailProps) {
+    const { wishlist, toggleMovie, isOnWishlist } = useWishlist(); //Hent wishlish
+
     if (!program) { //Hvis programmet ikke er sat så return en fejl
         return (
             <div className='w-full h-screen p-16 flex justify-center items-center'>
@@ -59,8 +61,6 @@ export default function ProgramDetail({ program, seasons, locale, localizedData 
             </div>
         );
     }
-
-    const { wishlist, toggleMovie, isOnWishlist } = useWishlist(); //Hent wishlish
 
     const formattedProgram = formatProgramData(program, locale); //Format programmet til et format jeg syntes er brugbart
 
@@ -131,14 +131,14 @@ export default function ProgramDetail({ program, seasons, locale, localizedData 
                         <div className='w-1/2 xl:w-1/3 h-full bg-[#353535] rounded-md p-6'>
                             <h2 className='text-3xl text-white mb-2'>{localizedData.seasons}</h2>
                             <div className='w-full h-[19rem] overflow-y-auto'>
-                                {seasons.map((season) => (
-                                    <>
-                                        <div key={season.id} className='w-full min-h-[5rem] bg-[#2d2d2d] p-2 rounded-md border-2 border-[#505050] flex flex-col'>
+                                {seasons.map((season: any, index: any) => (
+                                    <div key={`season-element-${index}`}>
+                                        <div key={`season-${index}`} className='w-full min-h-[5rem] bg-[#2d2d2d] p-2 rounded-md border-2 border-[#505050] flex flex-col'>
                                             <span className='text-xl font-semibold text-white'>{season.title}</span>
                                             <span className='text-md font-normal text-white/[0.7]'>{season.description == null ? localizedData.unavailable : season.description}</span>
                                         </div>
-                                        <div className='w-full h-[1rem]'></div>
-                                    </>
+                                        <div key={`spacing-${index}`} className='w-full h-[1rem]'></div>
+                                    </div>
                                 ))}
                             </div>
                         </div>

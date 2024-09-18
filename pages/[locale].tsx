@@ -42,8 +42,8 @@ export default function IndexPage({ localeData, locale }: { localeData: LocaleDa
                 </div>
 
                 <Grid grow gutter="sm" className=''>
-                    {genres.map((genre: Genre) => 
-                        <Grid.Col key={genre} span={2.4}>
+                    {genres.map((genre: Genre, index: any) => 
+                        <Grid.Col key={`genre-${index}`} span={2.4}>
                             <a href={`http://localhost:3000/${locale}/series?genre=${genre}`} className='w-full hover:scale-[103%] transition-all h-[6rem] rounded-md border-2 border-[#353535] bg-[#292929] hover:border-[#616161] hover:bg-[#3f3f3f] flex justify-center items-center'>
                                 <span className='text-white text-4xl font-semibold'>{localeData[genre]}</span>
                             </a>
@@ -72,8 +72,8 @@ export default function IndexPage({ localeData, locale }: { localeData: LocaleDa
                 <div className='w-full h-[3rem]'></div>
 
 
-                {genres.slice(0, genresToShow).map((genre: Genre) => (
-                    <MovieGenre key={genre} locale={locale} title={localeData[genre]} genre={genre} href={genre} />
+                {genres.slice(0, genresToShow).map((genre: Genre, index: any) => (
+                    <MovieGenre key={`genres-${index}`} locale={locale} title={localeData[genre]} genre={genre} href={genre} />
                 ))}
 
                 <div className='w-full h-[3rem]'></div>

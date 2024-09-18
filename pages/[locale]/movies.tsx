@@ -59,7 +59,7 @@ export default function SeriesPage({ localeData, locale }: { localeData: any, lo
         };
 
         loadMovies();
-    }, [genre]);
+    }, [genre, router]);
 
     const handleGenreChange = (event: React.ChangeEvent<HTMLSelectElement>) => { //Skift genre og push nyt link
         const selectedGenre = event.target.value || 'all';
@@ -108,15 +108,15 @@ export default function SeriesPage({ localeData, locale }: { localeData: any, lo
                             <>
                                 <div className='w-full h-[21rem] flex flex-col justify-center items-center'>
                                     <span className='text-2xl font-semibold text-white'>{localeData.loadingError}</span>
-                                    <a className='text-lg font-semibold text-white/[0.6]' onClick={() => window.location.reload()}>{localeData.loadingTryAgain}</a>
+                                    <a className='text-lg font-semibold text-white/[0.6]' onClick={() => router.replace(router.asPath)}>{localeData.loadingTryAgain}</a>
                                 </div>
                             </>
                             :
-                            movies.map((movie) => {
+                            movies.map((movie: any, index: any) => {
                                 const movieId = movie.id.split('/').pop(); //Få id'et fordi serie.id er et link.
                                 
                                 return (
-                                    <div onClick={() => {hrefId(movieId)}} key={movie.id} className='w-full h-[21rem] border-2 border-[#353535] rounded-md flex justify-center items-center text-center hover:scale-[105%] duration-500 transition-all'>
+                                    <div onClick={() => {hrefId(movieId)}} key={`movieElement-${index}`} className='w-full h-[21rem] border-2 border-[#353535] rounded-md flex justify-center items-center text-center hover:scale-[105%] duration-500 transition-all'>
                                         <div className="text-center text-base font-semibold">{movie.title}</div>
                                     </div>
                                 )

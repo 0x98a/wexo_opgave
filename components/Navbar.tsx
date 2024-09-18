@@ -1,8 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useRouter } from 'next/router';
 import { ActionIcon, Drawer } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { useWishlist } from 'lib/wishlist';
 import { IconX } from '@tabler/icons-react';
 
 const NavBar: React.FC<NavbarProps> = ({ locale, localeData, wishlist, toggleMovie }) => {
@@ -42,8 +41,8 @@ const NavBar: React.FC<NavbarProps> = ({ locale, localeData, wishlist, toggleMov
             <Drawer opened={opened} position="right" onClose={close} title="Wishlist" overlayProps={{ backgroundOpacity: 0.4, blur: 4 }}>
                 <div className='flex flex-col gap-2'>
                     {wishlist.length > 0 ?
-                        wishlist.map((movie: any) => (
-                            <div key={movie.movieId} className='w-full h-[5rem] rounded-md border-2 border-[#323232]  bg-[#1C1C1C] p-2 flex items-start justify-center flex-col'>
+                        wishlist.map((movie: any, index: any) => (
+                            <div key={`wishlist-item-${index}`} className='w-full h-[5rem] rounded-md border-2 border-[#323232]  bg-[#1C1C1C] p-2 flex items-start justify-center flex-col'>
                                 <div className='flex flex-col w-full gap-3'>
                                     <div className='flex flex-col w-full gap-0'>
                                         <div className='flex flex-row w-full justify-between items-center'>
